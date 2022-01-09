@@ -1,0 +1,52 @@
+MODEL_NAME: vgg16_gmn
+
+DATASET_NAME: voc
+DATASET_FULL_NAME: PascalVOC
+
+MODULE: models.GMN.model_pdl
+BACKBONE: VGG16_bn
+
+BATCH_SIZE: 8
+DATALOADER_NUM: 2
+
+RANDOM_SEED: 123
+
+PRETRAINED_PATH: pretrained/pretrained_params_vgg16_gmn_voc.pt
+
+GPUS:
+  - 2
+
+PAIR:
+  RESCALE:
+    - 256
+    - 256
+  REF_GRAPH_CONSTRUCT: tri
+  GT_GRAPH_CONSTRUCT: fc
+
+TRAIN:
+  START_EPOCH: 0
+  NUM_EPOCHS: 10
+  EPOCH_ITERS: 2000
+  
+  LOSS_FUNC: offset
+
+  LR: 1.e-3
+  MOMENTUM: 0.9
+  LR_DECAY: 0.1
+  LR_STEP:
+    - 2
+  
+  CLASS: none
+
+EVAL:
+  EPOCH: 10
+  SAMPLES: 1000
+
+GMN:
+  FEATURE_CHANNEL: 512
+  PI_ITER_NUM: 25
+  PI_STOP_THRESH: 1.e-3
+  BS_ITER_NUM: 20
+  BS_EPSILON: 1.e-10
+  VOTING_ALPHA: 200.
+  GM_SOLVER: SM
